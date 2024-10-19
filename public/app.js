@@ -1,3 +1,8 @@
+// Ensure roleIcons.js is loaded
+const script = document.createElement('script');
+script.src = '/path/to/roleIcons.js';
+document.head.appendChild(script);
+
 // Toggle the sidebar menu
 document.getElementById("menu-toggle").addEventListener("click", function () {
   document.getElementById("wrapper").classList.toggle("toggled");
