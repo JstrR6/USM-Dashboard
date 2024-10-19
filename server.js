@@ -1,6 +1,7 @@
 const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,9 @@ const client = new Client({
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 let storedRoles = []; // To store roles sent by the bot
 
 // API to receive roles from Discord bot and store them
@@ -26,6 +30,11 @@ app.post('/api/roles', (req, res) => {
 // API to send stored roles to the front-end
 app.get('/api/roles', (req, res) => {
   res.status(200).json({ roles: storedRoles });
+});
+
+// Catch-all route to serve the index.html for any other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Function to fetch all roles and send them to the web server
