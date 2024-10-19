@@ -23,7 +23,6 @@ let storedRoles = []; // To store roles sent by the bot
 // API to receive roles from Discord bot and store them
 app.post('/api/roles', (req, res) => {
   storedRoles = req.body.roles;
-  console.log('Received and stored roles:', storedRoles);
   res.status(200).json({ message: 'Roles received and stored successfully' });
 });
 
@@ -42,7 +41,6 @@ function sendRolesToWebServer() {
   const guild = client.guilds.cache.first(); // Ensure the bot is connected to the correct guild
   
   if (!guild) {
-    console.log("The bot is not connected to any guild.");
     return;
   }
 
@@ -63,13 +61,12 @@ function sendRolesToWebServer() {
 
 // When the bot is ready, fetch the roles and send them to the web server
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
   sendRolesToWebServer(); // Send roles when the bot is ready
 
   // Automatically send roles every 10 minutes (600,000 milliseconds)
   setInterval(() => {
     sendRolesToWebServer();
-  }, 60);
+  }, 600000);
 });
 
 // Command to manually trigger sending roles to the web server
