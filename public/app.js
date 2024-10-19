@@ -12,6 +12,11 @@ function showPage(pageId) {
   // Show the selected page
   const selectedPage = document.getElementById(pageId);
   selectedPage.style.display = 'block';
+
+  // Fetch roles if we're on the Ranks page
+  if (pageId === 'ranks') {
+    fetchRoles();
+  }
 }
 
 // Event listener for sidebar links
@@ -24,11 +29,6 @@ document.querySelectorAll('.list-group-item').forEach(link => {
 
     // Show the corresponding page
     showPage(page);
-
-    // If we're navigating to the Ranks page, fetch the roles
-    if (page === 'ranks') {
-      fetchRoles();
-    }
   });
 });
 
