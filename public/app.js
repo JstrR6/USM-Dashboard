@@ -1,8 +1,3 @@
-// Ensure roleIcons.js is loaded
-const script = document.createElement('script');
-script.src = '/public/roleIcons.js';
-document.head.appendChild(script);
-
 // Toggle the sidebar menu
 document.getElementById("menu-toggle").addEventListener("click", function () {
   document.getElementById("wrapper").classList.toggle("toggled");
@@ -39,6 +34,14 @@ document.querySelectorAll('.list-group-item').forEach(link => {
 
 // Initially show the overview page
 showPage('overview');
+
+// Ensure roleIcons.js is loaded
+const script = document.createElement('script');
+script.src = '/public/roleIcons.js'; // Ensure this path is correct
+script.onload = () => console.log("roleIcons.js loaded successfully");
+script.onerror = () => console.error("Error loading roleIcons.js");
+document.head.appendChild(script);
+
 
 // Fetch roles from the API and display them
 function fetchRoles() {
@@ -87,7 +90,7 @@ function fetchRoles() {
         roleElement.classList.add('role');
 
         // Get the corresponding icon for the role
-        const iconSrc = roleIcons[role.name] || 'path/to/default_icon.png'; // Fallback to default if not found
+        const iconSrc = roleIcons[role.name] || '/public/images/icons/Private.png'; // Fallback to default if not found
 
         // Display role name with the icon
         roleElement.innerHTML = `
