@@ -1,0 +1,26 @@
+// Role to icon mapping
+const roleIcons = {
+  "General of the Armed Forces": "/images/icons/general_of_the_armed_forces.png",
+  "General": "/images/icons/general.png",
+  "Lieutenant General": "/images/icons/lieutenant_general.png",
+  "Major General": "/images/icons/major_general.png",
+  "Brigadier General": "/images/icons/brigadier_general.png",
+  "Colonel": "/images/icons/colonel.png",
+  "Lieutenant Colonel": "/images/icons/lieutenant_colonel.png",
+  "Major": "/images/icons/major.png",
+  "Captain": "/images/icons/captain.png",
+  "First Lieutenant": "/images/icons/first_lieutenant.png",
+  "Second Lieutenant": "/images/icons/second_lieutenant.png",
+  "Sergeant Major of the Armed Forces": "/images/icons/sergeant_major_of_the_armed_forces.png",
+  "Command Sergeant Major": "/images/icons/command_sergeant_major.png",
+  "Sergeant Major": "/images/icons/sergeant_major.png",
+  "First Sergeant": "/images/icons/first_sergeant.png",
+  "Master Sergeant": "/images/icons/master_sergeant.png",
+  "Sergeant First Class": "/images/icons/sergeant_first_class.png",
+  "Staff Sergeant": "/images/icons/staff_sergeant.png",
+  "Sergeant": "/images/icons/sergeant.png",
+  "Corporal": "/images/icons/corporal.png",
+  "Specialist": "/images/icons/specialist.png",
+  "Private First Class": "/images/icons/private_first_class.png",
+  "Private": "/images/icons/private.png"
+};
