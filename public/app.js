@@ -1,45 +1,58 @@
-const axios = require('axios');
+// Toggle the sidebar menu
+document.getElementById("menu-toggle").addEventListener("click", function () {
+  document.getElementById("wrapper").classList.toggle("toggled");
+});
 
-// Function to fetch all roles and send them to the web server
-function sendRolesToWebServer() {
-  const guild = client.guilds.cache.first(); // Use the first guild/server the bot is connected to
-  
-  if (!guild) {
-    console.log("The bot is not connected to any guild.");
-    return;
-  }
+// Function to switch between pages
+function showPage(pageId) {
+  // Hide all pages
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => page.style.display = 'none');
 
-  // Get all roles in the guild
-  const roles = guild.roles.cache.map(role => ({
-    id: role.id,
-    name: role.name,
-    color: role.color,
-    position: role.position
-  }));
-
-  // Send the roles to the web server via a POST request
-  axios.post('https://your-app-name.onrender.com/api/roles', { roles })
-    .then(response => {
-      console.log('Roles sent successfully:', response.data);
-    })
-    .catch(error => {
-      console.error('Error sending roles:', error);
-    });
+  // Show the selected page
+  const selectedPage = document.getElementById(pageId);
+  selectedPage.style.display = 'block';
 }
 
-// When the bot is ready, fetch the roles and send them to the web server
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+// Event listener for sidebar links
+document.querySelectorAll('.list-group-item').forEach(link => {
+  link.addEventListener('click', function (event) {
+    event.preventDefault();
 
-  // Send the roles after bot starts
-  sendRolesToWebServer();
+    // Get the target page from the data-page attribute
+    const page = this.getAttribute('data-page');
+
+    // Show the corresponding page
+    showPage(page);
+
+    // If we're navigating to the Ranks page, fetch the roles
+    if (page === 'ranks') {
+      fetchRoles();
+    }
+  });
 });
 
-// Command to manually trigger sending roles to the web server
-client.on('messageCreate', (message) => {
-  if (message.author.bot) return;
-  if (message.content === '!sendroles') {
-    sendRolesToWebServer();
-    message.reply('Roles have been sent to the web server!');
-  }
-});
+// Initially show the overview page
+showPage('overview');
+
+// Fetch roles from the API and display them
+function fetchRoles() {
+  fetch('/api/roles')
+    .then(response => response.json())
+    .then(data => {
+      const rolesDiv = document.getElementById('roles-list');
+      rolesDiv.innerHTML = ''; // Clear the roles list
+
+      data.roles.forEach(role => {
+        const roleElement = document.createElement('div');
+        roleElement.classList.add('role');
+        roleElement.innerHTML = `
+          <strong>${role.name}</strong> (Position: ${role.position}) - Color: #${role.color.toString(16)}
+        `;
+        rolesDiv.appendChild(roleElement);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching roles:', error);
+    });
+}
