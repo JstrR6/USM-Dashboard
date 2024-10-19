@@ -39,7 +39,7 @@ app.get('*', (req, res) => {
 
 // Function to fetch all roles and send them to the web server
 function sendRolesToWebServer() {
-  const guild = client.guilds.cache.first();
+  const guild = client.guilds.cache.first(); // Ensure the bot is connected to the correct guild
   
   if (!guild) {
     console.log("The bot is not connected to any guild.");
@@ -53,6 +53,8 @@ function sendRolesToWebServer() {
     color: role.color,
     position: role.position
   }));
+
+  console.log('Sending roles to the server:', roles); // Log the roles before sending
 
   // Send the roles to the web server via a POST request
   axios.post('https://usm-dashboard.onrender.com/api/roles', { roles })
