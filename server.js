@@ -40,6 +40,15 @@ client.on('messageCreate', (message) => {
 // Log the bot in using the Discord token
 client.login(TOKEN);
 
+// New API route to receive roles from the Discord bot
+app.post('/api/roles', (req, res) => {
+  const roles = req.body.roles; // Extract roles from request body
+  console.log('Received roles:', roles);
+  
+  // You can handle the roles here (e.g., save them, log them, etc.)
+  res.status(200).json({ message: 'Roles received successfully' });
+});
+
 // Start the Express server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
