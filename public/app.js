@@ -1,31 +1,45 @@
-// Toggle the sidebar menu
-document.getElementById("menu-toggle").addEventListener("click", function () {
-  document.getElementById("wrapper").classList.toggle("toggled");
-});
+const axios = require('axios');
 
-// Function to switch between pages
-function showPage(pageId) {
-  // Hide all pages
-  const pages = document.querySelectorAll('.page');
-  pages.forEach(page => page.style.display = 'none');
+// Function to fetch all roles and send them to the web server
+function sendRolesToWebServer() {
+  const guild = client.guilds.cache.first(); // Use the first guild/server the bot is connected to
+  
+  if (!guild) {
+    console.log("The bot is not connected to any guild.");
+    return;
+  }
 
-  // Show the selected page
-  const selectedPage = document.getElementById(pageId);
-  selectedPage.style.display = 'block';
+  // Get all roles in the guild
+  const roles = guild.roles.cache.map(role => ({
+    id: role.id,
+    name: role.name,
+    color: role.color,
+    position: role.position
+  }));
+
+  // Send the roles to the web server via a POST request
+  axios.post('https://your-app-name.onrender.com/api/roles', { roles })
+    .then(response => {
+      console.log('Roles sent successfully:', response.data);
+    })
+    .catch(error => {
+      console.error('Error sending roles:', error);
+    });
 }
 
-// Event listener for sidebar links
-document.querySelectorAll('.list-group-item').forEach(link => {
-  link.addEventListener('click', function (event) {
-    event.preventDefault();
+// When the bot is ready, fetch the roles and send them to the web server
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
 
-    // Get the target page from the data-page attribute
-    const page = this.getAttribute('data-page');
-
-    // Show the corresponding page
-    showPage(page);
-  });
+  // Send the roles after bot starts
+  sendRolesToWebServer();
 });
 
-// Initially show the overview page
-showPage('overview');
+// Command to manually trigger sending roles to the web server
+client.on('messageCreate', (message) => {
+  if (message.author.bot) return;
+  if (message.content === '!sendroles') {
+    sendRolesToWebServer();
+    message.reply('Roles have been sent to the web server!');
+  }
+});
