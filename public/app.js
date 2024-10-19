@@ -45,6 +45,7 @@ function fetchRoles() {
   fetch('/api/roles')
     .then(response => response.json())
     .then(data => {
+      console.log("Roles fetched:", data.roles); // Check if roles are fetched
       const rolesDiv = document.getElementById('roles-list');
       rolesDiv.innerHTML = ''; // Clear the roles list
 
@@ -73,10 +74,12 @@ function fetchRoles() {
         "Private First Class",
         "Private"
       ];
-      
+
       const filteredRoles = data.roles
         .filter(role => roleHierarchy.includes(role.name)) // Filter by hierarchy
         .sort((a, b) => roleHierarchy.indexOf(a.name) - roleHierarchy.indexOf(b.name)); // Sort by hierarchy
+
+      console.log("Filtered roles:", filteredRoles); // Check the filtered roles
 
       // Loop through the filtered roles and display name + icon
       filteredRoles.forEach(role => {
@@ -98,3 +101,4 @@ function fetchRoles() {
       console.error('Error fetching roles:', error);
     });
 }
+
