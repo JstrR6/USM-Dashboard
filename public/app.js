@@ -35,6 +35,33 @@ document.querySelectorAll('.list-group-item').forEach(link => {
 // Initially show the overview page
 showPage('overview');
 
+// Define the role hierarchy in the correct order
+const roleHierarchy = [
+  "General of the Armed Forces",
+  "General",
+  "Lieutenant General",
+  "Major General",
+  "Brigadier General",
+  "Colonel",
+  "Lieutenant Colonel",
+  "Major",
+  "Captain",
+  "First Lieutenant",
+  "Second Lieutenant",
+  "Sergeant Major of the Armed Forces",
+  "Command Sergeant Major",
+  "Sergeant Major",
+  "First Sergeant",
+  "Master Sergeant",
+  "Sergeant First Class",
+  "Staff Sergeant",
+  "Sergeant",
+  "Corporal",
+  "Specialist",
+  "Private First Class",
+  "Private"
+];
+
 // Fetch roles from the API and display them
 function fetchRoles() {
   console.log("Fetching roles from the server...");
@@ -57,8 +84,13 @@ function fetchRoles() {
 
       console.log("Roles fetched successfully:", data.roles);
 
-      // Loop through the roles and create HTML elements for each role
-      data.roles.forEach(role => {
+      // Filter and sort the roles based on the defined hierarchy
+      const filteredRoles = data.roles
+        .filter(role => roleHierarchy.includes(role.name)) // Filter only the roles in the hierarchy
+        .sort((a, b) => roleHierarchy.indexOf(a.name) - roleHierarchy.indexOf(b.name)); // Sort by the defined order
+
+      // Loop through the filtered and sorted roles, create HTML elements for each role
+      filteredRoles.forEach(role => {
         const roleElement = document.createElement('div');
         roleElement.classList.add('role');
         roleElement.innerHTML = `
