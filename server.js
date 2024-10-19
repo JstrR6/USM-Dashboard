@@ -58,9 +58,6 @@ function sendRolesToWebServer() {
 
   // Send the roles to the web server via a POST request
   axios.post('https://usm-dashboard.onrender.com/api/roles', { roles })
-    .then(response => {
-      console.log('Roles sent successfully:', response.data);
-    })
     .catch(error => {
       console.error('Error sending roles:', error);
     });
