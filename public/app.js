@@ -35,8 +35,15 @@ document.querySelectorAll('.list-group-item').forEach(link => {
 // Initially show the overview page
 showPage('overview');
 
-// Define the role hierarchy in the correct order
-const roleHierarchy = [
+// Fetch roles from the API and display them
+function fetchRoles() {
+  fetch('/api/roles')
+    .then(response => response.json())
+    .then(data => {
+      const rolesDiv = document.getElementById('roles-list');
+      rolesDiv.innerHTML = ''; // Clear the roles list
+
+      const roleHierarchy = [const roleHierarchy = [
   "General of the Armed Forces",
   "General",
   "Lieutenant General",
@@ -61,47 +68,28 @@ const roleHierarchy = [
   "Private First Class",
   "Private"
 ];
-
-// Fetch roles from the API and display them
-function fetchRoles() {
-  console.log("Fetching roles from the server...");
-
-  fetch('/api/roles')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      const rolesDiv = document.getElementById('roles-list');
-      rolesDiv.innerHTML = ''; // Clear the roles list
-
-      if (data.roles.length === 0) {
-        rolesDiv.innerHTML = '<p>No roles found.</p>';
-        return;
-      }
-
-      console.log("Roles fetched successfully:", data.roles);
-
-      // Filter and sort the roles based on the defined hierarchy
+      
       const filteredRoles = data.roles
-        .filter(role => roleHierarchy.includes(role.name)) // Filter only the roles in the hierarchy
-        .sort((a, b) => roleHierarchy.indexOf(a.name) - roleHierarchy.indexOf(b.name)); // Sort by the defined order
+        .filter(role => roleHierarchy.includes(role.name)) // Filter by hierarchy
+        .sort((a, b) => roleHierarchy.indexOf(a.name) - roleHierarchy.indexOf(b.name)); // Sort by hierarchy
 
-      // Loop through the filtered and sorted roles, create HTML elements for each role
+      // Loop through the filtered roles and display name + icon
       filteredRoles.forEach(role => {
         const roleElement = document.createElement('div');
         roleElement.classList.add('role');
+
+        // Get the corresponding icon for the role
+        const iconSrc = roleIcons[role.name] || 'path/to/default_icon.png'; // Fallback to default if not found
+
+        // Display role name with the icon
         roleElement.innerHTML = `
-          <strong>${role.name}</strong> (Position: ${role.position}) - Color: #${role.color.toString(16)}
+          <img src="${iconSrc}" alt="${role.name} icon" style="width:20px; height:20px; margin-right:8px;">
+          <strong>${role.name}</strong>
         `;
         rolesDiv.appendChild(roleElement);
       });
     })
     .catch(error => {
       console.error('Error fetching roles:', error);
-      const rolesDiv = document.getElementById('roles-list');
-      rolesDiv.innerHTML = '<p>Error fetching roles. Please try again later.</p>';
     });
 }
