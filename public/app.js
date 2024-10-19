@@ -1,6 +1,6 @@
 // Ensure roleIcons.js is loaded
 const script = document.createElement('script');
-script.src = '/path/to/roleIcons.js';
+script.src = '/public/roleIcons.js';
 document.head.appendChild(script);
 
 // Toggle the sidebar menu
