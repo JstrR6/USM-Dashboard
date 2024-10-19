@@ -69,7 +69,12 @@ function sendRolesToWebServer() {
 // When the bot is ready, fetch the roles and send them to the web server
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  sendRolesToWebServer();
+  sendRolesToWebServer(); // Send roles when the bot is ready
+
+  // Automatically send roles every 10 minutes (600,000 milliseconds)
+  setInterval(() => {
+    sendRolesToWebServer();
+  }, 60);
 });
 
 // Command to manually trigger sending roles to the web server
