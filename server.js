@@ -1,87 +1,42 @@
-const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
-const axios = require('axios');
-const path = require('path');
+const dotenv = require('dotenv');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-const TOKEN = process.env.DISCORD_TOKEN;
+// Load environment variables
+dotenv.config();
 
-// Discord bot setup
+// Create a new client instance
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
-// Middleware to parse incoming JSON requests
-app.use(express.json());
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-let storedRoles = []; // To store roles sent by the bot
-
-// API to receive roles from Discord bot and store them
-app.post('/api/roles', (req, res) => {
-  storedRoles = req.body.roles;
-  res.status(200).json({ message: 'Roles received and stored successfully' });
+// When the client is ready, run this code (only once)
+client.once('ready', () => {
+  console.log('Discord bot is ready!');
 });
 
-// API to send stored roles to the front-end
-app.get('/api/roles', (req, res) => {
-  res.status(200).json({ roles: storedRoles });
-});
-
-// Catch-all route to serve the index.html for any other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Function to fetch all roles and send them to the web server
-function sendRolesToWebServer() {
-  const guild = client.guilds.cache.first(); // Ensure the bot is connected to the correct guild
-  
-  if (!guild) {
-    return;
-  }
-
-  // Get all roles in the guild
-  const roles = guild.roles.cache.map(role => ({
-    id: role.id,
-    name: role.name,
-    color: role.color,
-    position: role.position
-  }));
-
-  // Send the roles to the web server via a POST request
-  axios.post('https://usm-dashboard.onrender.com/api/roles', { roles })
-    .catch(error => {
-      console.error('Error sending roles:', error);
-    });
-}
-
-// When the bot is ready, fetch the roles and send them to the web server
-client.on('ready', () => {
-  sendRolesToWebServer(); // Send roles when the bot is ready
-
-  // Automatically send roles every 10 minutes (600,000 milliseconds)
-  setInterval(() => {
-    sendRolesToWebServer();
-  }, 600000);
-});
-
-// Command to manually trigger sending roles to the web server
-client.on('messageCreate', (message) => {
+// Listen for messages
+client.on('messageCreate', async (message) => {
+  // Ignore messages from bots
   if (message.author.bot) return;
-  if (message.content === '!sendroles') {
-    sendRolesToWebServer();
-    message.reply('Roles have been sent to the web server!');
+
+  // Check if the message starts with '!'
+  if (message.content.startsWith('!')) {
+    const args = message.content.slice(1).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    // Handle commands
+    if (command === 'ping') {
+      await message.reply('Pong!');
+    } else if (command === 'orbat') {
+      // TODO: Implement ORBAT command
+      await message.reply('ORBAT command not yet implemented.');
+    }
   }
 });
 
-// Log the bot into Discord using the token
-client.login(TOKEN);
-
-// Start the Express server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Login to Discord with your client's token
+client.login(process.env.DISCORD_TOKEN);
