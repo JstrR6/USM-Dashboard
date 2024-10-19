@@ -48,31 +48,31 @@ function fetchRoles() {
       const rolesDiv = document.getElementById('roles-list');
       rolesDiv.innerHTML = ''; // Clear the roles list
 
-      const roleHierarchy = [const roleHierarchy = [
-  "General of the Armed Forces",
-  "General",
-  "Lieutenant General",
-  "Major General",
-  "Brigadier General",
-  "Colonel",
-  "Lieutenant Colonel",
-  "Major",
-  "Captain",
-  "First Lieutenant",
-  "Second Lieutenant",
-  "Sergeant Major of the Armed Forces",
-  "Command Sergeant Major",
-  "Sergeant Major",
-  "First Sergeant",
-  "Master Sergeant",
-  "Sergeant First Class",
-  "Staff Sergeant",
-  "Sergeant",
-  "Corporal",
-  "Specialist",
-  "Private First Class",
-  "Private"
-];
+      const roleHierarchy = [
+        "General of the Armed Forces",
+        "General",
+        "Lieutenant General",
+        "Major General",
+        "Brigadier General",
+        "Colonel",
+        "Lieutenant Colonel",
+        "Major",
+        "Captain",
+        "First Lieutenant",
+        "Second Lieutenant",
+        "Sergeant Major of the Armed Forces",
+        "Command Sergeant Major",
+        "Sergeant Major",
+        "First Sergeant",
+        "Master Sergeant",
+        "Sergeant First Class",
+        "Staff Sergeant",
+        "Sergeant",
+        "Corporal",
+        "Specialist",
+        "Private First Class",
+        "Private"
+      ];
       
       const filteredRoles = data.roles
         .filter(role => roleHierarchy.includes(role.name)) // Filter by hierarchy
