@@ -17,11 +17,11 @@
     <div class="bg-dark border-right" id="sidebar-wrapper">
       <div class="sidebar-heading text-white">ORBAT Dashboard</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Overview</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Branches</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Units</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Ranks</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark text-white">Settings</a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-page="overview">Overview</a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-page="branches">Branches</a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-page="units">Units</a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-page="ranks">Ranks</a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark text-white" data-page="settings">Settings</a>
       </div>
     </div>
 
@@ -29,46 +29,65 @@
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
-            </li>
-          </ul>
-        </div>
       </nav>
 
       <div class="container-fluid">
         <h1 class="mt-4">Order of Battle (ORBAT)</h1>
         <p class="lead">Manage and view the structure of your organization.</p>
 
-        <!-- ORBAT Content Section -->
-        <div class="row">
-          <div class="col-lg-12">
+        <!-- Pages -->
+        <div id="pages">
+          <!-- Overview Page -->
+          <div id="overview" class="page">
             <div class="card mb-4">
-              <div class="card-header">
-                Overview
-              </div>
+              <div class="card-header">Overview</div>
               <div class="card-body">
-                <h5 class="card-title">Branches and Units</h5>
-                <p class="card-text">Here you can view the hierarchical structure of branches, units, and ranks.</p>
-                <a href="#" class="btn btn-primary">View Details</a>
+                <h5 class="card-title">Branches and Units Overview</h5>
+                <p class="card-text">Here you can view a high-level overview of your organizational structure.</p>
               </div>
             </div>
+          </div>
 
-            <!-- Add more cards to represent different sections of ORBAT -->
+          <!-- Branches Page -->
+          <div id="branches" class="page" style="display:none;">
             <div class="card mb-4">
-              <div class="card-header">
-                Current Ranks
-              </div>
+              <div class="card-header">Branches</div>
               <div class="card-body">
-                <h5 class="card-title">Rank Hierarchy</h5>
-                <p class="card-text">Display rank hierarchy and roles within the ORBAT.</p>
-                <a href="#" class="btn btn-primary">View Ranks</a>
+                <h5 class="card-title">Manage Branches</h5>
+                <p class="card-text">Create, edit, and view branches within the ORBAT.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Units Page -->
+          <div id="units" class="page" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header">Units</div>
+              <div class="card-body">
+                <h5 class="card-title">Manage Units</h5>
+                <p class="card-text">Add, edit, and view units within each branch.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ranks Page -->
+          <div id="ranks" class="page" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header">Ranks</div>
+              <div class="card-body">
+                <h5 class="card-title">Rank Structure</h5>
+                <p class="card-text">Define and view rank hierarchy within the ORBAT.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings Page -->
+          <div id="settings" class="page" style="display:none;">
+            <div class="card mb-4">
+              <div class="card-header">Settings</div>
+              <div class="card-body">
+                <h5 class="card-title">Configure Settings</h5>
+                <p class="card-text">Manage the ORBAT dashboard settings and configurations.</p>
               </div>
             </div>
           </div>
@@ -84,3 +103,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+
